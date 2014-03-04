@@ -1,0 +1,22 @@
+{
+  "name": "websocket",
+  "version": "0.0.1",
+  "description": "JS websocket",
+  "main": "websocket.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sciworth/websocket.git"
+  },
+  "author": "Yura Bogdanov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sciworth/websocket/issues"
+  },
+  "homepage": "https://github.com/sciworth/websocket",
+  "dependencies": {
+    "lodash": "^2.4.1"
+  }
+}
