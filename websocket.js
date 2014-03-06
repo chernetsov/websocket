@@ -4,6 +4,7 @@ function createWs(options) {
         socket,
         connected = false,
         closedByMe = false,
+        closeWhenConnected = false,
         connectTimer, reconnectTimer, idleTimer,
         reconnectTime = 1000,
         initialReconnectTime = 1000,
@@ -29,10 +30,11 @@ function createWs(options) {
         close: function() {
             closedByMe = true
             log('explicit close requested')
+            if(!connected) { return closeWhenConnected = true  }//when closing before connection established
             try {
-                socket && socket.close()
+              socket && socket.close()
             } catch (e) {
-                logError("socket closing bug", e.stack || e)
+              logError("socket closing bug", e.stack || e)
             }
             connected = false
         },
@@ -65,6 +67,10 @@ function createWs(options) {
           clearTimeout(connectTimer)
           reconnectTime = initialReconnectTime
           connected = true
+          if(closeWhenConnected) {
+            closeWhenConnected = false
+            ws.close()
+          }
           dequeue()
           ws.emit('connect')
           re && ws.emit('reconnect')
