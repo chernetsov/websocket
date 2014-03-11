@@ -5,7 +5,7 @@ function createWs(options) {
       connected = false,
       closedByMe = false,
       closeWhenConnected = false,
-      connectTimer, reconnectTimer, idleTimer,
+      reconnectTimer, idleTimer,
       reconnectTime = 1000,
       initialReconnectTime = 1000,
       maxReconnectTime = 60000,
@@ -14,7 +14,6 @@ function createWs(options) {
   options = _.extend({
     url: null,
     connectionTimeout: 1000,
-    connectTime: 10000,
     idleTimeout: 5 * 60000
   }, options)
 
@@ -59,17 +58,14 @@ function createWs(options) {
   // private stuff
 
   function connect(re) {
+
     log("connect to url: " + options.url)
 
     socket = new WebSocketClass(options.url)
     closedByMe = false
     connected = false
-
-    connectTimer = setTimeout(onerror, options.connectTime)
-
     socket.onopen = function(){  
       //log('Socket Status: ', socket.readyState, ' (open)')
-      clearTimeout(connectTimer)
       reconnectTime = initialReconnectTime
       connected = true
       if(closeWhenConnected) {
@@ -88,7 +84,6 @@ function createWs(options) {
 
     socket.onclose = function(){  
       //log('Socket Status: ', socket.readyState, ' (Closed)')
-      clearTimeout(connectTimer)
       connected = false
       ws.emit('disconnect')
       if (!closedByMe) {
@@ -148,7 +143,6 @@ function createWs(options) {
     if (connected) {
       ws.close()
     }
-    clearTimeout(connectTimer)
 
     log("try to reconnect in " + (reconnectTime / 1000) + "s")
     reconnectTimer = setTimeout(function () {
