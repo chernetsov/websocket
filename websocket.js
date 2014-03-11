@@ -46,8 +46,13 @@ function createWs(options) {
 
     release: function() {
       clearTimeout(reconnectTimer)
+    },
+    toString: function() {
+      return "[object WebSocket]"
     }
   })
+
+
 
   return ws
 
