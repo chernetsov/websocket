@@ -1,7 +1,7 @@
 {
   "name": "websocket",
   "main": "websocket.js",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/sciworth/websocket",
   "authors": [
     "Igor Kononuchenko <kigorw@gmail.com>"
