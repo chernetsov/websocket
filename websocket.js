@@ -42,9 +42,9 @@ function createWs(options) {
       connected = false
     },
 
-    reconnect: function() {
+    reconnect: function(doEmit) {
       ws.close()
-      ws.connect()
+      ws.connect(doEmit)
     },
 
     release: function() {
