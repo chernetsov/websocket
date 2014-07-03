@@ -32,6 +32,10 @@ function createWs(options) {
       if(!connected) { return closeWhenConnected = true  }//when closing before connection established
       try {
         socket && socket.close()
+        if (reconnectTimer) {
+          clearTimeout(reconnectTimer)
+          reconnectTimer = null
+        }
       } catch (e) {
         logError("socket closing bug", e.stack || e)
       }
