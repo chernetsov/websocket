@@ -1,15 +1,15 @@
 function createWs(options) {
 
   var WebSocketClass = window.WebSocket || window.MozWebSocket,
-      socket,
-      connected = false,
-      closedByMe = false,
-      closeWhenConnected = false,
-      reconnectTimer, idleTimer,
-      reconnectTime = 1000,
-      initialReconnectTime = 1000,
-      maxReconnectTime = 60000,
-      messageQueue = []
+    socket,
+    connected = false,
+    closedByMe = false,
+    closeWhenConnected = false,
+    reconnectTimer, idleTimer,
+    reconnectTime = 1000,
+    initialReconnectTime = 1000,
+    maxReconnectTime = 60000,
+    messageQueue = []
 
   options = _.extend({
     url: null,
@@ -47,9 +47,14 @@ function createWs(options) {
       ws.connect(doEmit)
     },
 
+    isConnected: function() {
+      return connected
+    },
+
     release: function() {
       clearTimeout(reconnectTimer)
     },
+
     toString: function() {
       return "[object WebSocket]"
     }
@@ -68,7 +73,7 @@ function createWs(options) {
     socket = new WebSocketClass(options.url)
     closedByMe = false
     connected = false
-    socket.onopen = function(){  
+    socket.onopen = function(){
       //log('Socket Status: ', socket.readyState, ' (open)')
       reconnectTime = initialReconnectTime
       connected = true
@@ -79,14 +84,14 @@ function createWs(options) {
       dequeue()
       ws.emit('connect')
       re && ws.emit('reconnect')
-    }  
+    }
 
-    socket.onmessage = function(msg){  
+    socket.onmessage = function(msg){
       console.log('%c Received: %s', "color: #46af91;", msg.data)
       handleMessage(msg.data)
-    }  
+    }
 
-    socket.onclose = function(){  
+    socket.onclose = function(){
       //log('Socket Status: ', socket.readyState, ' (Closed)')
       connected = false
       ws.emit('disconnect')
